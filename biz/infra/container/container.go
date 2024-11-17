@@ -9,10 +9,10 @@ import (
 )
 
 type Container struct {
-	Trace          *trace.TraceStruct
-	Logger         *log.TraceLogger
-	Config         *config.Config
-	ProjectService project.IProjectService
+	Trace         *trace.TraceStruct
+	Logger        *log.TraceLogger
+	Config        *config.Config
+	OnlineService service.IOnlineService
 }
 
 var APP *Container
@@ -35,13 +35,13 @@ func NewContainer(config *config.Config,
 	logger *log.TraceLogger,
 	traceStruct *trace.TraceStruct,
 
-	projectService project.IProjectService,
+	onlineService service.IOnlineService,
 ) *Container {
 	return &Container{
-		Config:         config,
-		Logger:         logger,
-		ProjectService: projectService,
-		Trace:          traceStruct,
+		Config:        config,
+		Logger:        logger,
+		OnlineService: onlineService,
+		Trace:         traceStruct,
 	}
 
 }

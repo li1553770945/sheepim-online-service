@@ -3,24 +3,21 @@ package main
 import (
 	"context"
 	"github.com/li1553770945/sheepim-online-service/biz/infra/container"
-	"github.com/li1553770945/sheepim-online-service/kitex_gen/project"
+	online "github.com/li1553770945/sheepim-online-service/kitex_gen/online"
 )
 
-// ProjectsServiceImpl implements the last service interface defined in the IDL.
-type ProjectServiceImpl struct{}
+// OnlineServiceImpl implements the last service interface defined in the IDL.
+type OnlineServiceImpl struct{}
 
-// GetProjects implements the ProjectsServiceImpl interface.
-func (s *ProjectServiceImpl) GetProjects(ctx context.Context, req *project.ProjectsReq) (resp *project.ProjectsResp, err error) {
-	// TODO: Your code here...
+// SetClientStatus implements the OnlineServiceImpl interface.
+func (s *OnlineServiceImpl) SetClientStatus(ctx context.Context, req *online.SetClientStatusReq) (resp *online.SetClientStatusResp, err error) {
 	App := container.GetGlobalContainer()
-	resp, err = App.ProjectService.GetProjects(ctx, req)
+	resp, err = App.OnlineService.SetClientStatus(ctx, req)
 	return
 }
 
-// GetProjectNum implements the ProjectsServiceImpl interface.
-func (s *ProjectServiceImpl) GetProjectNum(ctx context.Context) (resp *project.ProjectNumResp, err error) {
-	// TODO: Your code here...
+func (s *OnlineServiceImpl) GetOnlineMemberEndpoint(ctx context.Context, req *online.GetOnlineMemberEndpointReq) (resp *online.GetOnlineMemberEndpointResp, err error) {
 	App := container.GetGlobalContainer()
-	resp, err = App.ProjectService.GetProjectNum(ctx)
+	resp, err = App.OnlineService.GetOnlineMemberEndpoint(ctx, req)
 	return
 }

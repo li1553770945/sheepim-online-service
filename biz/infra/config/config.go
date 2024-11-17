@@ -21,19 +21,18 @@ type EtcdConfig struct {
 	Endpoint []string `yaml:"endpoint"`
 }
 
-type DatabaseConfig struct {
-	Username string `yaml:"username"`
-	Password string `yaml:"password"`
-	Database string `yaml:"database"`
-	Address  string `yaml:"address"`
-	Port     int32  `yaml:"port"`
+type CacheConfig struct {
+	Password      string `yaml:"password"`
+	Database      int    `yaml:"database"`
+	Endpoint      string `yaml:"endpoint"`
+	ExpireSeconds int64  `yaml:"expire-seconds"`
 }
 
 type Config struct {
 	Env                 string
 	ServerConfig        ServerConfig        `yaml:"server"`
 	OpenTelemetryConfig OpenTelemetryConfig `yaml:"open-telemetry"`
-	DatabaseConfig      DatabaseConfig      `yaml:"database"`
+	CacheConfig         CacheConfig         `yaml:"cache"`
 	EtcdConfig          EtcdConfig          `yaml:"etcd"`
 }
 

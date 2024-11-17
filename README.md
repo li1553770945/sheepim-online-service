@@ -2,7 +2,7 @@
 
 ## 初始化项目
 ```bash
-kitex -module "github.com/li1553770945/sheepim-online-service" -service sheepim-online-service idl/project.thrift
+kitex -module "github.com/li1553770945/sheepim-online-service" -service sheepim-online-service idl/online.thrift
 cd biz/infra/container
 wire
 ```

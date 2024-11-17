@@ -1,22 +1,22 @@
-package project
+package service
 
 import (
 	"context"
 	"github.com/li1553770945/sheepim-online-service/biz/internal/repo"
-	"github.com/li1553770945/sheepim-online-service/kitex_gen/project"
+	"github.com/li1553770945/sheepim-online-service/kitex_gen/online"
 )
 
-type ProjectService struct {
+type OnlineService struct {
 	Repo repo.IRepository
 }
 
-type IProjectService interface {
-	GetProjects(ctx context.Context, req *project.ProjectsReq) (*project.ProjectsResp, error)
-	GetProjectNum(ctx context.Context) (*project.ProjectNumResp, error)
+type IOnlineService interface {
+	SetClientStatus(ctx context.Context, req *online.SetClientStatusReq) (resp *online.SetClientStatusResp, err error)
+	GetOnlineMemberEndpoint(ctx context.Context, req *online.GetOnlineMemberEndpointReq) (resp *online.GetOnlineMemberEndpointResp, err error)
 }
 
-func NewProjectService(repo repo.IRepository) IProjectService {
-	return &ProjectService{
+func NewOnlineService(repo repo.IRepository) IOnlineService {
+	return &OnlineService{
 		Repo: repo,
 	}
 }
