@@ -17,6 +17,25 @@ func (s *OnlineService) SetClientStatus(ctx context.Context, req *online.SetClie
 			return nil, err
 		}
 	} else {
+		endpoint, err := s.Repo.GetOnlineMemberEndpoint([]string{req.GetClientId()})
+		if err != nil {
+			return &online.SetClientStatusResp{
+				BaseResp: &base.BaseResp{
+					Code:    constant.SystemError,
+					Message: "repo读取数据失败",
+				},
+			}, nil
+		}
+
+		// 如果当前没有或者已经被更新过endpoint就不要移除
+		if len(endpoint.GetStatus()) == 0 || endpoint.GetStatus()[0].ServerEndpoint != req.ServerEndpoint {
+			return &online.SetClientStatusResp{
+				BaseResp: &base.BaseResp{
+					Code: constant.Success,
+				},
+			}, nil
+		}
+
 		err = s.Repo.RemoveClient(req.ClientId)
 		if err != nil {
 			klog.CtxErrorf(ctx, "移除客户端 %s 出错", req.ClientId)
