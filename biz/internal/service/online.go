@@ -9,7 +9,7 @@ import (
 )
 
 func (s *OnlineService) SetClientStatus(ctx context.Context, req *online.SetClientStatusReq) (resp *online.SetClientStatusResp, err error) {
-	klog.CtxInfof(ctx, "客户端%s状态:%v,%s ", req.ClientId, req.IsOnline, req.ServerEndpoint)
+	klog.CtxInfof(ctx, "客户端%s状态:%v,%s", req.ClientId, req.IsOnline, req.ServerEndpoint)
 	if req.IsOnline {
 		err = s.Repo.SetClientEndpoint(req.ClientId, req.ServerEndpoint)
 		if err != nil {
@@ -29,6 +29,7 @@ func (s *OnlineService) SetClientStatus(ctx context.Context, req *online.SetClie
 
 		// 如果当前没有或者已经被更新过endpoint就不要移除
 		if len(endpoint.GetStatus()) == 0 || endpoint.GetStatus()[0].ServerEndpoint != req.ServerEndpoint {
+			klog.CtxInfof(ctx, "当前客户端endpoint与请求移除客户端endpoint不符合，不做处理")
 			return &online.SetClientStatusResp{
 				BaseResp: &base.BaseResp{
 					Code: constant.Success,
@@ -42,7 +43,12 @@ func (s *OnlineService) SetClientStatus(ctx context.Context, req *online.SetClie
 			return nil, err
 		}
 	}
-	klog.CtxInfof(ctx, "设置客户端%s状态成功", req.ClientId)
+	if req.IsOnline {
+		klog.CtxInfof(ctx, "设置客户端%s状态成功", req.ClientId)
+	} else {
+		klog.CtxInfof(ctx, "移除客户端%s成功", req.ClientId)
+	}
+
 	return &online.SetClientStatusResp{
 		BaseResp: &base.BaseResp{
 			Code: constant.Success,
