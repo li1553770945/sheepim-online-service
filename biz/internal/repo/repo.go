@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"github.com/li1553770945/sheepim-online-service/kitex_gen/online"
+	"time"
 )
 
 func (r *Repository) GetOnlineMemberEndpoint(clientList []string) (*online.GetOnlineMemberEndpointResp, error) {
@@ -40,7 +41,7 @@ func (r *Repository) SetClientEndpoint(clientId string, endpoint string) error {
 	onlineKey := "online:" + clientId
 
 	// 将客户端的 endpoint 存储到 Redis
-	_, err := r.Cache.Set(ctx, onlineKey, endpoint, 0).Result() // 不设置过期时间，可以根据需求设置
+	_, err := r.Cache.Set(ctx, onlineKey, endpoint, time.Duration(r.CacheExpireSeconds)*time.Second).Result() // 不设置过期时间，可以根据需求设置
 
 	if err != nil {
 		return err
