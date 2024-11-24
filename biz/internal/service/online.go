@@ -76,5 +76,8 @@ func (s *OnlineService) GetOnlineMemberEndpoint(ctx context.Context, req *online
 	}
 
 	klog.CtxInfof(ctx, "获取客户端列表状态成功, 共%v条数据", len(resp.Status))
+	for _, status := range onlineMembersResp.Status {
+		klog.CtxInfof(ctx, "客户端%s位于%s", status.ClientId, status.ServerEndpoint)
+	}
 	return resp, nil
 }
